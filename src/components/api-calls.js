@@ -33,6 +33,36 @@ async function getPostById(id) {
         throw error;
     }
 }
+async function getPostByUserId(id, accessToken) {
+    console.log(id, "userid in getpostbyuserid");
+    try {
+        const response = await axios.get(`${domain}posts/user/${id}`, {
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+            }
+        });
+
+        console.log(response.data, "response in getpostbyuserid");
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching post with userid ${id}:`, error);
+        throw error;
+    }
+}
+
+async function getLatestPosts() {
+    try {
+        const response = await axios.get(`${domain}posts/latest/${10}`, {
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching latest posts:', error);
+        throw error;
+    }
+}
 
 
 
@@ -95,4 +125,4 @@ async function logIn(formdata) {
 }
 
 
-export { getAllPosts, getPostById, createPost, updatePost, deletePost, signup, logIn }
+export { getAllPosts, getPostById, createPost, updatePost, deletePost, signup, logIn, getPostByUserId, getLatestPosts };

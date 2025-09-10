@@ -1,64 +1,166 @@
-
+"use client";
 import Addbutton from "@/components/addblogbutton";
 import Blog from "@/components/blog";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
+export default function Home() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-
-export default async function Home() {
-
-  
-
-
-
-    return (
-        <div className="min-h-screen bg-gray-500 pt-10">
-            <div className="flex items-center justify-between max-w-md mx-auto ">
-
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    className="w-full px-4 py-2 text-gray-700 bg-gray-100 rounded-l-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
+  return (
+    <div className="bg-neuBase pt-10 transition-colors">
+      <div className="flex">
+        <aside
+          className={`fixed lg:static top-0 left-0 h-full lg:h-auto w-64 lg:w-1/4 bg-neuBase shadow-neu z-40 p-6 transition-transform duration-300 lg:translate-x-0 ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:rounded-2xl flex flex-col items-center`}
+        >
+          <div className="w-full flex justify-end lg:hidden mb-4">
+            <button
+              onClick={() => setSidebarOpen(false)}
+              aria-label="Close sidebar"
+              className="p-2"
+            >
+              <svg
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
                 />
-                <button
-                    className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-6 py-2 rounded-r-full focus:outline-none">
-                    Search
-                </button>
-                
-                    <div className="min-w-[150px]">
-                        <Addbutton />
-                    </div>
-            </div>
-            <div className="container mx-6 px-3 py-8">
-                <div className="flex justify-between">
-                    <aside className="w-auto">
-                        <div className="flex items-center max-w-md mx-auto mt-10">
-                            <input
-                                type="text"
-                                placeholder="Search..."
-                                className="w-1/2 px-4 py-2 text-gray-700 bg-gray-100 rounded-l-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                            <button
-                                className="bg-gradient-to-r from-blue-400 to-blue-800 text-white px-6 py-2 rounded-r-full focus:outline-none">
-                                Search
-                            </button>
-                        </div>
-                        <h3 className="mt-8 font-semibold text-black bg-yellow-200 rounded px-5 py-2 w-1/2 ">Categories</h3>
-                        <ul className="m-6 space-y-6">
-                            <li><a href="#" className=" text-white bg-blue-800 rounded px-5 py-2 hover:bg-blue-400">All</a></li>
-                            <li><a href="#" className=" text-white bg-blue-800 rounded px-5 py-2 hover:bg-blue-400">Expert Hot Seat</a></li>
-                            <li><a href="#" className=" text-white bg-blue-800 rounded px-5 py-2 hover:bg-blue-400">Facilitation</a></li>
-                            <li><a href="#" className=" text-white bg-blue-800 rounded px-5 py-2 hover:bg-blue-400">Webinar</a></li>
-                            <li><a href="#" className=" text-white bg-blue-800 rounded px-5 py-2 hover:bg-blue-400">Retrium Updates</a></li>
-                            <li><a href="#" className=" text-white bg-blue-800 rounded px-5 py-2 hover:bg-blue-400">Collaboration</a></li>
-                            <li><a href="#" className=" text-white bg-blue-800 rounded px-5 py-2 hover:bg-blue-400">Retrospective Quick Tips</a></li>
-                            <li><a href="#" className=" text-white bg-blue-800 rounded px-5 py-2 hover:bg-blue-400">Agile Practices 101</a></li>
-                        </ul>
-                    </aside>
+              </svg>
+            </button>
+          </div>
 
-                    <Blog />
-                </div>
+          <div className="flex w-full items-center">
+            <div className="flex-1 rounded-full overflow-hidden text-neuText bg-neuBase shadow-neuInset">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full px-6 py-4 bg-transparent text-gray-700 focus:outline-none placeholder-gray-400"
+              />
             </div>
-        </div>
-    );
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="ml-4 w-16 h-16 rounded-full flex items-center justify-center text-gray-700 bg-neuBase shadow-neu"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </motion.button>
+          </div>
+
+          <ul className="mt-6 w-full flex flex-col gap-3">
+            {[
+              "All",
+              "Expert Hot Seat",
+              "Facilitation",
+              "Webinar",
+              "Retrium Updates",
+              "Collaboration",
+              "Retrospective Quick Tips",
+              "Agile Practices 101",
+            ].map((cat, idx) => (
+              <motion.li
+                key={cat}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                whileHover={{ scale: 1.05 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.3, delay: idx * 0.05 }}
+              >
+                <a
+                  href="#"
+                  className="block text-neuText bg-neuBase rounded-2xl px-5 py-3 shadow-neu text-center font-medium tracking-wide transition-all"
+                >
+                  {cat}
+                </a>
+              </motion.li>
+            ))}
+          </ul>
+        </aside>
+
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-30 z-30 lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          ></div>
+        )}
+        
+        <main className="flex-1 lg:ml-5 overflow-y-auto h-[calc(100vh-7rem)] p-4 sm:p-8">
+          <div className="lg:hidden flex items-center mb-4">
+            <button
+              className="p-2 rounded-md bg-neuBase shadow-neu text-neuText focus:outline-none"
+              onClick={() => setSidebarOpen((v) => !v)}
+              aria-label="Toggle filter"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <circle cx="10" cy="6" r="2" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <circle cx="16" cy="12" r="2" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+                <circle cx="8" cy="18" r="2" />
+              </svg>
+            </button>
+          </div>
+          <div className="flex flex-col md:flex-row items-start justify-start w-full gap-4">
+            <div className="flex w-full md:w-[420px]">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full px-4 py-3 rounded-l-2xl bg-neuBase text-neuText shadow-neuInset focus:outline-none transition-all"
+              />
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+                className="px-6 py-3 rounded-r-2xl bg-neuBase shadow-neu text-neuText font-medium transition-all -ml-1"
+              >
+                Search
+              </motion.button>
+            </div>
+            <div className="min-w-[120px] mt-2 md:mt-0">
+              <Addbutton />
+            </div>
+          </div>
+
+          <motion.div
+            className="mt-6 sm:mt-8 rounded-2xl min-h-[300px] sm:min-h-[400px]"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Blog />
+          </motion.div>
+        </main>
+      </div>
+    </div>
+  );
 }
-

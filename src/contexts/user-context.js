@@ -22,7 +22,7 @@ function UserProvider({children}) {
         if (accessToken != null && refreshToken != null && accessToken != 'undefined' && refreshToken != 'undefined') {
             console.log(accessToken);
             const decoded = jwt.decode(accessToken);
-            // console.log(decoded,'from useeffect userauth');
+            console.log(decoded,'from useeffect userauth');
             if (decoded.exp * 1000 < Date.now()) {
                 
                 logout();

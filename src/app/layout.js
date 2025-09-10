@@ -5,21 +5,23 @@ import { LoadingProvider } from "@/contexts/loading-context";
 
 
 export const metadata = {
-  title: "Blog Web",
-  description: "A blog web site",
+  title: "ZeeBLOG",
+  description: "A modern blogging platform to share your stories and ideas.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <UserProvider>
-      <html lang="en">
-        <body>
+    <html lang="en">
+      <body className="overflow-y-hidden">
+        <UserProvider>
           <LoadingProvider>
             <Navbar />
-            {children}
+            <main className="pt-20">
+              {children}
+            </main>
           </LoadingProvider>
-        </body>
-      </html>
-    </UserProvider>
+        </UserProvider>
+      </body>
+    </html>
   );
 }
