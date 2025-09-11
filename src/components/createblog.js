@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/contexts/user-context";
 import { LoadingContext } from "@/contexts/loading-context";
 import { createPost } from "./api-calls";
+import { useRouter } from "next/navigation";
 
 export default function Newblog() {
   const [title, setTitle] = useState("");
@@ -12,6 +13,7 @@ export default function Newblog() {
   const [category, setCategory] = useState("");
   const { accessToken, id, name } = useContext(UserContext);
   const { setIsLoading } = useContext(LoadingContext);
+  const router = useRouter();
 
   useEffect(() => {
     setIsLoading(false);
@@ -40,20 +42,25 @@ export default function Newblog() {
     setTitle("");
     setContent("");
     setCategory("");
+    setIsLoading(true);
+    router.push("/myblog");
   }
 
   return (
-    <div className="w-full p-8 rounded-2xl shadow-neu bg-neuBase flex flex-col">
+    <div className="w-full p-8 rounded-2xl shadow-neu dark:shadow-neuDark bg-neuBase dark:bg-neuBaseDark flex flex-col">
       {/* Top row: Dropdown + Save */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
         {/* Dropdown Menu */}
         <div className="flex items-center gap-2">
-          <label htmlFor="category" className="font-semibold">
+          <label
+            htmlFor="category"
+            className="font-semibold text-neuText dark:text-neuTextDark"
+          >
             Category:
           </label>
           <select
             id="category"
-            className="p-2 rounded-lg text-neuText bg-neuBase shadow-neuInset focus:shadow-neuLg hover:shadow-neuLg transition focus:outline-none border-none"
+            className="p-2 rounded-lg text-neuText dark:text-neuTextDark bg-neuBase dark:bg-neuBaseDark shadow-neuInset dark:shadow-neuInsetDark focus:shadow-neuLg dark:focus:shadow-neuLgDark hover:shadow-neuLg dark:hover:shadow-neuLgDark transition focus:outline-none border-none"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
@@ -63,12 +70,13 @@ export default function Newblog() {
             <option value="Lifestyle">Lifestyle</option>
             <option value="Travel">Travel</option>
             <option value="Health">Health</option>
+            <option value="Business">Business</option>
           </select>
         </div>
 
         {/* Save Button */}
         <button
-          className="bg-neuBase text-neuText px-6 py-2 rounded-lg shadow-neu transition hover:shadow-neuLg active:shadow-neuInset focus:outline-none font-semibold"
+          className="bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark px-6 py-2 rounded-lg shadow-neu dark:shadow-neuDark transition hover:shadow-neuLg dark:hover:shadow-neuLgDark active:shadow-neuInset dark:active:shadow-neuInsetDark focus:outline-none font-semibold"
           onClick={handleSubmit}
         >
           Save
@@ -83,14 +91,14 @@ export default function Newblog() {
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full mb-6 p-4 rounded-lg bg-neuBase text-neuText shadow-neuInset border-none focus:outline-none text-2xl font-bold resize-none"
+          className="w-full mb-6 p-4 rounded-lg bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark shadow-neuInset dark:shadow-neuInsetDark border-none focus:outline-none text-2xl font-bold resize-none"
         />
         <textarea
           required
           placeholder="Write your article..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="w-full flex-1 mb-6 p-4 rounded-lg bg-neuBase text-neuText shadow-neuInset border-none focus:outline-none resize-none overflow-y-auto"
+          className="w-full flex-1 mb-6 p-4 rounded-lg bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark shadow-neuInset dark:shadow-neuInsetDark border-none focus:outline-none resize-none overflow-y-auto"
           style={{ minHeight: "400px", maxHeight: "600px" }}
         />
       </form>

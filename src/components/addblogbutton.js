@@ -10,7 +10,10 @@ export default function Addbutton() {
   };
   return isloggedin ? (
     <button
-      className="ml-4 px-6 py-2 rounded-xl bg-[#e0e5ec] text-gray-700 font-semibold shadow-[4px_4px_8px_#b8bac0,_-4px_-4px_8px_#fff] hover:shadow-inner transition focus:outline-none"
+      className={`ml-4 px-6 py-2 rounded-xl font-semibold transition focus:outline-none 
+        bg-neuBase text-neuText shadow-neu 
+        dark:bg-neuBaseDark dark:text-neuTextDark dark:shadow-neuDark 
+        hover:shadow-neuInset dark:hover:shadow-neuInsetDark`}
       onClick={addblog}
     >
       Create

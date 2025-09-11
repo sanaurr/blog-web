@@ -5,9 +5,9 @@ const domain = 'https://blog-server-sanaur-rahamans-projects.vercel.app/';
 
 
 
-async function getAllPosts() {
+async function getAllPosts(category) {
     try {
-        const response = await axios.get(`${domain}posts`, {
+        const response = await axios.get(`${domain}posts/category/${category}`, {
             headers: {
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
             }
@@ -22,7 +22,7 @@ async function getAllPosts() {
 
 async function getPostById(id) {
     try {
-        const response = await axios.get(`${domain}posts/${id}`, {
+        const response = await axios.get(`${domain}posts/id/${id}`, {
             headers: {
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
             }

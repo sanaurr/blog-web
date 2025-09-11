@@ -8,7 +8,6 @@ import { UserContext } from "@/contexts/user-context";
 import { LoadingContext } from "@/contexts/loading-context";
 import { logIn, signup } from "@/components/api-calls";
 
-
 export default function Signup() {
   const [islogin, setLogin] = useState(true);
   const [signupmail, setSignupmail] = useState("");
@@ -64,17 +63,29 @@ export default function Signup() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#e0e5ec]">
-      <div className="bg-[#e0e5ec] rounded-2xl shadow-[8px_8px_16px_#b8bac0,_-8px_-8px_16px_#fff] p-10 w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-neuBase dark:bg-neuBaseDark trasition-colors duration-300">
+      <motion.div
+        key={islogin ? "login" : "signup"}
+        initial={{ rotateY: 180, opacity: 0 }}
+        animate={{ rotateY: 0, opacity: 1 }}
+        exit={{ rotateY: -180, opacity: 0 }}
+        transition={{ duration: 0.6 }}
+        className="bg-neuBase dark:bg-neuBaseDark rounded-2xl shadow-neu dark:shadow-neuDark p-10 w-full max-w-md mx-4"
+        style={{ backfaceVisibility: "hidden" }}
+      >
         {error && <AlertDialog errorMessage={error} />}
-        <form onSubmit={islogin ? handleLogin : handleSignup} className="space-y-6">
+        <form
+          onSubmit={islogin ? handleLogin : handleSignup}
+          className="space-y-12"
+        >
           {!islogin && (
             <input
               type="text"
               placeholder="Name"
               value={name}
-              onChange={e => setName(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-[#e0e5ec] text-gray-700 shadow-inner focus:outline-none"
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl 
+              bg-neuBase text-neuText shadow-neuInset dark:shadow-neuInsetDark dark:bg-neuBaseDark dark:text-neuTextDark focus:outline-none"
               required
             />
           )}
@@ -82,28 +93,48 @@ export default function Signup() {
             type="email"
             placeholder="Email"
             value={islogin ? loginmail : signupmail}
-            onChange={e => islogin ? setLoginmail(e.target.value) : setSignupmail(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl bg-[#e0e5ec] text-gray-700 shadow-inner focus:outline-none"
+            onChange={(e) =>
+              islogin
+                ? setLoginmail(e.target.value)
+                : setSignupmail(e.target.value)
+            }
+            className="w-full px-4 py-3 rounded-xl bg-neuBase 
+            text-neuText shadow-neuInset dark:bg-neuBaseDark dark:text-neuTextDark dark:shadow-neuInsetDark focus:outline-none"
             required
           />
           <input
             type="password"
             placeholder="Password"
             value={islogin ? loginpass : signuppass}
-            onChange={e => islogin ? setLoginpass(e.target.value) : setSignuppass(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl bg-[#e0e5ec] text-gray-700 shadow-inner focus:outline-none"
+            onChange={(e) =>
+              islogin
+                ? setLoginpass(e.target.value)
+                : setSignuppass(e.target.value)
+            }
+            className="w-full px-4 py-3 rounded-xl bg-neuBase text-neuText
+             shadow-neuInset dark:bg-neuBaseDark dark:text-neuTextDark dark:shadow-neuInsetDark focus:outline-none"
             required
           />
-          <button type="submit" className="w-full py-3 rounded-xl bg-[#e0e5ec] text-gray-700 font-semibold shadow-[4px_4px_8px_#b8bac0,_-4px_-4px_8px_#fff] hover:shadow-inner transition">
+          <button
+            type="submit"
+            className="w-full py-3 rounded-xl bg-neuBase text-neuText font-semibold 
+            shadow-neu dark:bg-neuBaseDark dark:text-neuTextDark dark:shadow-neuInsetDark 
+            hover:shadow-neuInset transition dark:hover:shadow-neuLgDark"
+          >
             {islogin ? "Login" : "Sign Up"}
           </button>
         </form>
         <div className="mt-6 text-center">
-          <button onClick={() => setLogin(!islogin)} className="text-blue-600 hover:underline">
-            {islogin ? "Don't have an account? Sign Up" : "Already have an account? Login"}
+          <button
+            onClick={() => setLogin(!islogin)}
+            className="text-blue-600 hover:underline"
+          >
+            {islogin
+              ? "Don't have an account? Sign Up"
+              : "Already have an account? Login"}
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -72,42 +72,53 @@ export default function Viewblog({ article }) {
 
   return editMode ? (
     // <div className="min-h-screen bg-red pt-10">
-    <div className="w-full bg-neu p-12 mb-12 shadow-neu rounded-2xl">
+    <div className="w-full bg-neuBase dark:bg-neuBaseDark p-12 mb-12 shadow-neu dark:shadow-neuDark rounded-2xl">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl max-w-3xl font-bold mb-4">{art.title}</h1>
+        <h1 className="text-3xl max-w-3xl font-bold mb-4 text-neuText dark:text-neuTextDark">
+          {art.title}
+        </h1>
         <div>
           {isloggedin && id == art.authorid && (
             <div className="text-right p-2 rounded-lg">
               <button
                 onClick={() => seteditMode(false)}
-                className="mb-2 bg-neu shadow-neu hover:bg-neuInset text-neuText font-bold py-2 px-4 rounded"
+                className="mb-2 bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark hover:bg-neuInset dark:hover:bg-neuInsetDark text-neuText dark:text-neuTextDark font-bold py-2 px-4 rounded"
               >
                 Edit
               </button>
             </div>
           )}
-          <h1 className="text-3xl font-bold mb-4">Author: {art.author}</h1>
-          <h3 className="font-bold mb-4">Created at: {formattedDate}</h3>
+          <h1 className="text-3xl font-bold mb-4 text-neuText dark:text-neuTextDark">
+            Author: {art.author}
+          </h1>
+          <h3 className="font-bold mb-4 text-neuText dark:text-neuTextDark">
+            Created at: {formattedDate}
+          </h3>
         </div>
       </div>
-      <p className="text-lg">{art.content}</p>
+      <p className="text-lg text-neuText dark:text-neuTextDark">
+        {art.content}
+      </p>
       {/* <p>{category}</p> */}
       {/* <p>{id}</p> */}
     </div>
   ) : (
     // </div>
-    <div className="w-full shadow-neu bg-neuBase p-10 mb-12 rounded-2xl">
+    <div className="w-full shadow-neu dark:shadow-neuDark bg-neuBase dark:bg-neuBaseDark p-10 mb-12 rounded-2xl">
       {/* <div className=""> */}
       {/* Dropdown and Save button row */}
       <div className="flex items-center justify-between gap-4">
         {/* Dropdown Menu */}
         <div>
-          <label htmlFor="category" className="mr-2 text-neuText font-semibold">
+          <label
+            htmlFor="category"
+            className="mr-2 text-neuText dark:text-neuTextDark font-semibold"
+          >
             Choose a category:
           </label>
           <select
             id="category"
-            className="bg-neuBase shadow-neuInset rounded-xl px-4 py-2 text-neuText focus:outline-none focus:shadow-neuLg transition-shadow duration-200 border-none"
+            className="bg-neuBase dark:bg-neuBaseDark shadow-neuInset dark:shadow-neuInsetDark rounded-xl px-4 py-2 text-neuText dark:text-neuTextDark focus:outline-none focus:shadow-neuLg dark:focus:shadow-neuLgDark transition-shadow duration-200 border-none"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
@@ -122,13 +133,13 @@ export default function Viewblog({ article }) {
 
         <div className="flex space-x-4">
           <button
-            className="bg-neuBase shadow-neu font-semibold px-6 py-2 rounded-xl hover:shadow-neuLg hover:bg-red-100 transition-all duration-200 focus:outline-none"
+            className="bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark font-semibold px-6 py-2 rounded-xl hover:shadow-neuLg dark:hover:shadow-neuLgDark hover:bg-red-100 dark:hover:bg-red-900 transition-all duration-200 focus:outline-none text-neuText dark:text-neuTextDark"
             onClick={handleDelete}
           >
             Delete
           </button>
           <button
-            className="bg-neuBase shadow-neu font-semibold px-6 py-2 rounded-xl hover:shadow-neuLg hover:bg-blue-100 transition-all duration-200 focus:outline-none"
+            className="bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark font-semibold px-6 py-2 rounded-xl hover:shadow-neuLg dark:hover:shadow-neuLgDark hover:bg-blue-100 dark:hover:bg-blue-900 transition-all duration-200 focus:outline-none text-neuText dark:text-neuTextDark"
             onClick={(event) => {
               handleSubmit(event);
             }}
@@ -147,14 +158,14 @@ export default function Viewblog({ article }) {
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full mb-6 p-4 rounded-lg bg-neuBase text-neuText shadow-neuInset border-none focus:outline-none text-2xl font-bold resize-none"
+          className="w-full mb-6 p-4 rounded-lg bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark shadow-neuInset dark:shadow-neuInsetDark border-none focus:outline-none text-2xl font-bold resize-none"
         />
         <textarea
           required
           placeholder="Write your article"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="w-full flex-1 mb-6 p-4 rounded-lg bg-neuBase text-neuText shadow-neuInset border-none focus:outline-none resize-none overflow-y-auto"
+          className="w-full flex-1 mb-6 p-4 rounded-lg bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark shadow-neuInset dark:shadow-neuInsetDark border-none focus:outline-none resize-none overflow-y-auto"
           style={{ minHeight: "450px", maxHeight: "600px" }}
         />
       </form>

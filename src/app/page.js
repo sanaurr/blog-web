@@ -6,12 +6,19 @@ import { useState } from "react";
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [category, setCategory] = useState("All");
 
   return (
-    <div className="bg-neuBase pt-10 transition-colors">
+    <motion.div
+      className="bg-neuBase dark:bg-neuBaseDark pt-10 transition-colors"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="flex">
         <aside
-          className={`fixed lg:static top-0 left-0 h-full lg:h-auto w-64 lg:w-1/4 bg-neuBase shadow-neu z-40 p-6 transition-transform duration-300 lg:translate-x-0 ${
+          className={`fixed lg:static top-0 left-0 h-full lg:h-auto w-64 lg:w-1/4 bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark z-40 p-6 transition-transform duration-300 lg:translate-x-0 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           } lg:rounded-2xl flex flex-col items-center`}
         >
@@ -39,17 +46,17 @@ export default function Home() {
           </div>
 
           <div className="flex w-full items-center">
-            <div className="flex-1 rounded-full overflow-hidden text-neuText bg-neuBase shadow-neuInset">
+            <div className="flex-1 overflow-hidden text-neuText dark:text-neuTextDark bg-neuBase dark:bg-neuBaseDark shadow-neuInset dark:shadow-neuInsetDark">
               <input
                 type="text"
                 placeholder="Search..."
-                className="w-full px-6 py-4 bg-transparent text-gray-700 focus:outline-none placeholder-gray-400"
+                className="w-full px-6 py-4 bg-transparent text-gray-700 dark:text-neuTextDark focus:outline-none placeholder-gray-400 dark:placeholder-gray-400"
               />
             </div>
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="ml-4 w-16 h-16 rounded-full flex items-center justify-center text-gray-700 bg-neuBase shadow-neu"
+              className="ml-4 w-16 h-16 rounded-full flex items-center justify-center text-gray-700 dark:text-neuTextDark bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -68,16 +75,15 @@ export default function Home() {
             </motion.button>
           </div>
 
-          <ul className="mt-6 w-full flex flex-col gap-3">
+          <ul className="mt-[5rem] w-full flex flex-col gap-6">
             {[
               "All",
-              "Expert Hot Seat",
-              "Facilitation",
-              "Webinar",
-              "Retrium Updates",
-              "Collaboration",
-              "Retrospective Quick Tips",
-              "Agile Practices 101",
+              "Technology",
+              "Lifestyle",
+              "Travel",
+              "Health",
+              "Business",
+              "Politics",
             ].map((cat, idx) => (
               <motion.li
                 key={cat}
@@ -87,12 +93,18 @@ export default function Home() {
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.3, delay: idx * 0.05 }}
               >
-                <a
-                  href="#"
-                  className="block text-neuText bg-neuBase rounded-2xl px-5 py-3 shadow-neu text-center font-medium tracking-wide transition-all"
+                <div
+                  onClick={() => setCategory(cat)}
+                  className={`block text-neuText dark:text-neuTextDark bg-neuBase dark:bg-neuBaseDark 
+                    rounded-2xl px-5 py-3 shadow-neu dark:shadow-neuDark text-center font-medium
+                    tracking-wide transition-all duration-200 cursor-pointer ${
+                      category === cat
+                        ? "bg-gray-200 dark:bg-gray-700 shadow-neuInset dark:shadow-neuInsetDark"
+                        : "hover:bg-gray-200 dark:hover:bg-gray-700"
+                    }`}
                 >
                   {cat}
-                </a>
+                </div>
               </motion.li>
             ))}
           </ul>
@@ -104,11 +116,11 @@ export default function Home() {
             onClick={() => setSidebarOpen(false)}
           ></div>
         )}
-        
+
         <main className="flex-1 lg:ml-5 overflow-y-auto h-[calc(100vh-7rem)] p-4 sm:p-8">
           <div className="lg:hidden flex items-center mb-4">
             <button
-              className="p-2 rounded-md bg-neuBase shadow-neu text-neuText focus:outline-none"
+              className="p-2 rounded-md bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark text-neuText dark:text-neuTextDark focus:outline-none"
               onClick={() => setSidebarOpen((v) => !v)}
               aria-label="Toggle filter"
             >
@@ -135,12 +147,12 @@ export default function Home() {
               <input
                 type="text"
                 placeholder="Search..."
-                className="w-full px-4 py-3 rounded-l-2xl bg-neuBase text-neuText shadow-neuInset focus:outline-none transition-all"
+                className="w-full px-4 py-3 rounded-l-2xl bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark shadow-neuInset dark:shadow-neuInsetDark focus:outline-none transition-all"
               />
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
-                className="px-6 py-3 rounded-r-2xl bg-neuBase shadow-neu text-neuText font-medium transition-all -ml-1"
+                className="px-6 py-3 rounded-r-2xl bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark text-neuText dark:text-neuTextDark font-medium transition-all -ml-1"
               >
                 Search
               </motion.button>
@@ -157,10 +169,10 @@ export default function Home() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5 }}
           >
-            <Blog />
+            <Blog category={category} />
           </motion.div>
         </main>
       </div>
-    </div>
+    </motion.div>
   );
 }
