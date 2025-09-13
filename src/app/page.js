@@ -2,23 +2,33 @@
 import Addbutton from "@/components/addblogbutton";
 import Blog from "@/components/blog";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { LoadingContext } from "@/contexts/loading-context";
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [category, setCategory] = useState("All");
 
+  const { setIsLoading } = useContext(LoadingContext);
+  useEffect(() => {
+    setIsLoading(false);
+    document.body.style.overflow = sidebarOpen ? "hidden" : "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [sidebarOpen]);
+
   return (
     <motion.div
-      className="bg-neuBase dark:bg-neuBaseDark pt-10 transition-colors"
+      className="h-[calc(100vh-7rem)] bg-neuBase dark:bg-neuBaseDark transition-colors lg:pt-5 overflow-hidden"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="flex">
+      <div className="flex h-full">
         <aside
-          className={`fixed lg:static top-0 left-0 h-full lg:h-auto w-64 lg:w-1/4 bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark z-40 p-6 transition-transform duration-300 lg:translate-x-0 ${
+          className={`fixed lg:static top-[100px] left-0 h-full lg:h-auto w-64 lg:w-1/4 bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark z-40 p-6 transition-transform duration-300 lg:translate-x-0 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           } lg:rounded-2xl flex flex-col items-center`}
         >

@@ -39,9 +39,9 @@ export default function MyBlogPage() {
   };
 
   return (
-    <div className="h-screen bg-neuBase overflow-y-auto dark:bg-neuBaseDark">
+    <div className="h-[calc(100vh-7rem] bg-neuBase overflow-y-auto dark:bg-neuBaseDark overflow-y-auto">
       <motion.div
-        className="p-10 bg-neuBase flex flex-col items-center dark:bg-neuBaseDark"
+        className=" flex flex-col items-center dark:bg-neuBaseDark"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}

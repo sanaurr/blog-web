@@ -33,9 +33,7 @@ export default function LatestBlogsPage() {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15, // 🔹 cards animate one by one
-      },
+      transition: { staggerChildren: 0.15 },
     },
   };
 
@@ -45,18 +43,19 @@ export default function LatestBlogsPage() {
   };
 
   return (
-    <div className="h-screen bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark overflow-y-auto">
+    <div className="h-[calc(100vh-7rem)] bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark overflow-y-auto">
       <motion.div
-        className="p-10 mb-10 bg-neuBase dark:bg-neuBaseDark flex flex-col items-center text-neuText dark:text-neuTextDark"
+        className="flex flex-col"
         initial="hidden"
         animate="show"
         variants={containerVariants}
       >
+        {/* Scroll only inside here */}
         <motion.section
           variants={containerVariants}
           initial="hidden"
           animate="show"
-          className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 py-8 px-2"
+          className="w-full p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 overflow-y-auto flex-1"
         >
           {articles.map((a, i) => (
             <motion.article
@@ -73,21 +72,19 @@ export default function LatestBlogsPage() {
                 <span className="self-start mb-2 bg-gradient-to-r from-yellow-200 to-yellow-100 dark:from-yellow-900 dark:to-yellow-800 text-yellow-800 dark:text-yellow-100 text-xs px-3 py-1 rounded-full font-semibold shadow-sm border border-yellow-100 dark:border-yellow-900">
                   {a.category}
                 </span>
-                <h3 className="font-extrabold text-lg text-neuText dark:text-neuTextDark mb-2 line-clamp-2 leading-tight">
+                <h3 className="font-extrabold text-lg mb-2 line-clamp-2 leading-tight">
                   {a.title}
                 </h3>
                 <div className="flex items-center mb-3">
                   <span className="inline-block w-8 h-8 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200 rounded-full flex items-center justify-center font-bold mr-2 shadow-neu dark:shadow-neuDark">
                     {a.author?.[0]?.toUpperCase() || "A"}
                   </span>
-                  <span className="text-neuText dark:text-neuTextDark text-sm font-medium">
-                    {a.author}
-                  </span>
+                  <span className="text-sm font-medium">{a.author}</span>
                 </div>
-                <p className="text-neuText dark:text-neuTextDark text-sm mb-4 line-clamp-3 whitespace-pre-line break-words flex-1">
+                <p className="text-sm mb-4 line-clamp-3 whitespace-pre-line break-words flex-1">
                   {a.content}
                 </p>
-                {a.tags && a.tags.length > 0 && (
+                {a.tags?.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-4">
                     {a.tags.map((tag, idx) => (
                       <span
@@ -103,7 +100,7 @@ export default function LatestBlogsPage() {
                   onClick={() => viewblog(a)}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.95 }}
-                  className="mt-auto inline-block font-semibold px-4 py-2 rounded-xl bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark shadow-neu hover:shadow-neuLg dark:shadow-neuDark dark:hover:shadow-neuLgDark active:shadow-neuInset dark:active:shadow-neuInsetDark transition-shadow border border-transparent"
+                  className="mt-auto inline-block font-semibold px-4 py-2 rounded-xl shadow-neu hover:shadow-neuLg dark:shadow-neuDark dark:hover:shadow-neuLgDark active:shadow-neuInset dark:active:shadow-neuInsetDark transition-shadow border border-transparent"
                 >
                   Read more
                 </motion.button>

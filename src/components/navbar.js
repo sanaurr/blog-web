@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useRouter, usePathname } from "next/navigation";
 import { useContext, useState, useEffect } from "react";
 import { Sun, Moon } from "lucide-react";
+import {LoadingContext} from "@/contexts/loading-context";
 
 export default function Navbar() {
   const router = useRouter();
@@ -13,12 +14,14 @@ export default function Navbar() {
   };
   const { isloggedin, logout } = useContext(UserContext);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { setIsLoading } = useContext(LoadingContext);
 
   // Dark Mode State
   const [darkMode, setDarkMode] = useState(false);
 
   // Load theme from localStorage
   useEffect(() => {
+    setIsLoading(false);
     if (localStorage.theme === "dark") {
       setDarkMode(true);
       document.documentElement.classList.add("dark");
@@ -48,7 +51,7 @@ export default function Navbar() {
   ];
 
   return (
-    <div className="w-full fixed top-0 bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark z-50">
+    <div className="w-full sticky top-0 bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark z-50">
       <motion.div
         className="flex items-start justify-between p-3 sm:p-4 mx-auto relative"
         initial={{ y: -40, opacity: 0 }}
@@ -84,13 +87,17 @@ export default function Navbar() {
         <nav className="hidden sm:flex gap-4 md:gap-8 lg:gap-20 items-center">
           {navLinks.map((link, idx) => {
             const isSelected = pathname === link.path;
+            console.log(pathname, link.path, isSelected); 
             return (
               <motion.button
                 key={link.label}
-                className={`px-5 py-2 rounded-2xl bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark shadow-neu dark:shadow-neuDark hover:shadow-inner transition-all text-base md:text-lg ${
-                  isSelected ? "shadow-inner dark:shadow-neuInsetDark" : ""
+                className={`px-5 py-2 rounded-2xl bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark dark:shadow-neuDark hover:shadow-inner transition-all text-base md:text-lg ${
+                  isSelected ? "shadow-inner dark:shadow-inner" : "shadow-neu hover:shadow-neuLg dark:shadow-neuDark dark:hover:shadow-neuLgDark"
                 }`}
-                onClick={() => router.push(link.path)}
+                onClick={() => {
+                  setIsLoading(true);
+                  return router.push(link.path);
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, x: -30 }}

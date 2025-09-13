@@ -10,8 +10,8 @@ export default function About() {
   }, []);
 
   return (
-    <main className="h-screen bg-neuBase dark:bg-neuBaseDark overflow-y-auto">
-      <div className="text-neuText dark:text-neuTextDark mb-12 sm:px-6 sm:py-12 flex justify-center">
+    <main className="h-[calc(100vh-7rem)] bg-neuBase dark:bg-neuBaseDark overflow-y-auto">
+      <div className="text-neuText dark:text-neuTextDark sm:px-6 sm:py-12 flex justify-center">
         <div className="w-full max-w-5xl flex flex-col gap-8 sm:gap-10">
           {/* Hero Section */}
           <section className="flex flex-col items-center text-center">

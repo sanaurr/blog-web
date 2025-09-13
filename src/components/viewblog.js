@@ -72,7 +72,7 @@ export default function Viewblog({ article }) {
 
   return editMode ? (
     // <div className="min-h-screen bg-red pt-10">
-    <div className="w-full bg-neuBase dark:bg-neuBaseDark p-12 mb-12 shadow-neu dark:shadow-neuDark rounded-2xl">
+    <div className="bg-neuBase dark:bg-neuBaseDark p-12 mb-12 shadow-neu dark:shadow-neuDark rounded-2xl">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl max-w-3xl font-bold mb-4 text-neuText dark:text-neuTextDark">
           {art.title}
@@ -103,8 +103,7 @@ export default function Viewblog({ article }) {
       {/* <p>{id}</p> */}
     </div>
   ) : (
-    // </div>
-    <div className="w-full shadow-neu dark:shadow-neuDark bg-neuBase dark:bg-neuBaseDark p-10 mb-12 rounded-2xl">
+    <div className="shadow-neu dark:shadow-neuDark bg-neuBase dark:bg-neuBaseDark p-10 mb-12 rounded-2xl flex flex-col ">
       {/* <div className=""> */}
       {/* Dropdown and Save button row */}
       <div className="flex items-center justify-between gap-4">
@@ -170,7 +169,6 @@ export default function Viewblog({ article }) {
         />
       </form>
       {/* </div> */}
-      {/* </div> */}
-    </div>
+      </div>
   );
 }

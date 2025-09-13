@@ -12,13 +12,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="overflow-y-hidden">
+      <body className="bg-neuBase dark:bg-neuBaseDark transition-colors duration-300 ease-in-out h-screen">
         <UserProvider>
           <LoadingProvider>
             <Navbar />
-            <main className="pt-20">
-              {children}
-            </main>
+            {children}
           </LoadingProvider>
         </UserProvider>
       </body>
