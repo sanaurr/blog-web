@@ -60,6 +60,7 @@ export default function About() {
               <h2 className="text-2xl font-bold mb-4">✨ What We Offer</h2>
               <ul className="list-disc list-inside space-y-2">
                 <li>📝 Effortless blog creation with an intuitive editor</li>
+                <li>📝💃 Effortless blog creation with PookieAI</li>
                 <li>🔍 Discover articles by category and trending topics</li>
                 <li>👤 Personalized profiles and easy blog management</li>
                 <li>🌙 Light & dark mode for comfortable reading</li>
