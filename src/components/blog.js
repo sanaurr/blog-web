@@ -46,9 +46,9 @@ export default function Blog({category}) {
                 {a.author}
               </span>
             </div>
-            <p className="text-neuText dark:text-neuTextDark text-sm mb-4 line-clamp-3 whitespace-pre-line break-words flex-1">
-              {a.content}
-            </p>
+            <div className="text-neuText dark:text-neuTextDark text-sm mb-4 line-clamp-3 whitespace-pre-line break-words flex-1" dangerouslySetInnerHTML={{__html : a.content}}>
+              
+            </div>
             {a.tags && a.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-4">
                 {a.tags.map((tag, idx) => (

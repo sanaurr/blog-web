@@ -96,9 +96,7 @@ export default function Viewblog({ article }) {
           </h3>
         </div>
       </div>
-      <p className="text-lg text-neuText dark:text-neuTextDark">
-        {art.content}
-      </p>
+      <div className="text-lg text-neuText dark:text-neuTextDark" dangerouslySetInnerHTML={{__html : art.content}}/>
       {/* <p>{category}</p> */}
       {/* <p>{id}</p> */}
     </div>

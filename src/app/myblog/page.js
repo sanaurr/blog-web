@@ -100,8 +100,8 @@ export default function MyBlogPage() {
                       {a.author}
                     </span>
                   </div>
-                  <p className="text-sm mb-4 line-clamp-3 whitespace-pre-line break-words flex-1 dark:text-neuTextDark">
-                    {a.content}
+                  <p className="text-sm mb-4 line-clamp-3 whitespace-pre-line break-words flex-1 dark:text-neuTextDark" dangerouslySetInnerHTML={{__html:a.content}}>
+                    
                   </p>
                   {a.tags && a.tags.length > 0 && (
                     <div className="flex flex-wrap gap-2 mb-4">
