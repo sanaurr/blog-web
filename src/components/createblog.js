@@ -182,7 +182,7 @@ export default function Newblog() {
         <RichTextEditor initialvalue={content} setValue={(content) => {
           console.log(content);
           setContent(content);
-        }} />
+        }} className="w-full flex-1 p-4 rounded-lg bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark shadow-neuInset dark:shadow-neuInsetDark border-none focus:outline-none resize-none" />
       </form>
     </div>
   );

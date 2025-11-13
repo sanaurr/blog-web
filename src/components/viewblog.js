@@ -4,7 +4,8 @@ import { LoadingContext } from "@/contexts/loading-context";
 import { UserContext } from "@/contexts/user-context";
 import { useContext, useEffect, useState } from "react";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
-import { deletePost, getPostById, updatePost } from "./api-calls";
+import { deletePost, editByAI, getPostById, updatePost } from "./api-calls";
+import RichTextEditor from "./quil-editor";
 
 export default function Viewblog({ article }) {
   const splitart = article.split("-");
@@ -18,6 +19,8 @@ export default function Viewblog({ article }) {
   const { accessToken, name } = useContext(UserContext);
   const [art, setArt] = useState({});
   const [date, setDate] = useState("");
+  const [showPookieDialog, setShowPookieDialog] = useState(false);
+  const [instruction, setInstruction] = useState("");
 
   useEffect(() => {
     setIsLoading(false);
@@ -43,6 +46,35 @@ export default function Viewblog({ article }) {
     }
   }, [editMode, art]);
 
+   function handlePookieDialogSubmit(e) {
+     e.preventDefault();
+     setShowPookieDialog(false);
+     setInstruction("");
+     // Optionally, trigger AI generation here
+     handleAIGenerate();
+  }
+  
+  async function handleAIGenerate() {
+    if (!category || category === "" || category === "Select a category") {
+      alert("Please select a category before generating content.");
+      return;
+    }
+    if (!instruction || instruction.trim() === "" || instruction === "Enter instructions") {
+      alert("Please enter a topic before generating content.");
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const aiContent = await editByAI(instruction, title, content, category, 500, accessToken);
+      console.log("AI Content:", aiContent);
+      setTitle(aiContent.title || "");
+      setContent(aiContent.content || "");
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error generating AI content:", error);
+      setIsLoading(false);
+    }
+  }
   async function handleSubmit(event) {
     event.preventDefault();
     if (title === "" || content === "" || category === "") {
@@ -55,7 +87,7 @@ export default function Viewblog({ article }) {
     formdata.append("category", category);
     formdata.append("author", name);
     formdata.append("authorid", id);
-    updatePost(art.id, formdata, accessToken).catch((error) =>
+   await updatePost(art.id, formdata, accessToken).catch((error) =>
       console.error("There was a problem with the fetch operation:", error)
     );
 
@@ -79,12 +111,18 @@ export default function Viewblog({ article }) {
         </h1>
         <div>
           {isloggedin && id == art.authorid && (
-            <div className="text-right p-2 rounded-lg">
+            <div className="flex space-x-4 p-4 ">
               <button
                 onClick={() => seteditMode(false)}
-                className="mb-2 bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark hover:bg-neuInset dark:hover:bg-neuInsetDark text-neuText dark:text-neuTextDark font-bold py-2 px-4 rounded"
+                className="bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark font-semibold px-6 py-2 rounded-xl hover:shadow-neuLg dark:hover:shadow-neuLgDark hover:bg-red-100 dark:hover:bg-red-900 transition-all duration-200 focus:outline-none text-neuText dark:text-neuTextDark"
               >
                 Edit
+              </button>
+              <button
+                className="bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark font-semibold px-6 py-2 rounded-xl hover:shadow-neuLg dark:hover:shadow-neuLgDark hover:bg-red-100 dark:hover:bg-red-900 transition-all duration-200 focus:outline-none text-neuText dark:text-neuTextDark"
+                onClick={handleDelete}
+              >
+                Delete
               </button>
             </div>
           )}
@@ -96,7 +134,10 @@ export default function Viewblog({ article }) {
           </h3>
         </div>
       </div>
-      <div className="text-lg text-neuText dark:text-neuTextDark" dangerouslySetInnerHTML={{__html : art.content}}/>
+      <div
+        className="text-lg text-neuText dark:text-neuTextDark"
+        dangerouslySetInnerHTML={{ __html: art.content }}
+      />
       {/* <p>{category}</p> */}
       {/* <p>{id}</p> */}
     </div>
@@ -130,11 +171,53 @@ export default function Viewblog({ article }) {
 
         <div className="flex space-x-4">
           <button
-            className="bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark font-semibold px-6 py-2 rounded-xl hover:shadow-neuLg dark:hover:shadow-neuLgDark hover:bg-red-100 dark:hover:bg-red-900 transition-all duration-200 focus:outline-none text-neuText dark:text-neuTextDark"
-            onClick={handleDelete}
+            className="bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark
+           px-6 py-2 rounded-lg shadow-neu dark:shadow-neuDark transition hover:shadow-neuLg 
+           dark:hover:shadow-neuLgDark active:shadow-neuInset dark:active:shadow-neuInsetDark 
+           focus:outline-none font-semibold mr-4"
+            onClick={() => setShowPookieDialog(true)}
           >
-            Delete
+            Edit with PookieAI
           </button>
+          {/* Dialog for PookieAI topic input */}
+          {showPookieDialog && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+              <div className="bg-white p-6 rounded shadow-lg w-80">
+                <h2 className="text-lg font-semibold mb-4">
+                  Enter a instruction for PookieAI
+                </h2>
+                <form onSubmit={handlePookieDialogSubmit}>
+                  <input
+                    type="text"
+                    className="w-full border border-gray-300 rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Enter instructions..."
+                    value={instruction}
+                    onChange={(e) => setInstruction(e.target.value)}
+                    autoFocus
+                  />
+                  <div className="flex justify-end gap-2">
+                    <button
+                      type="button"
+                      className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                      onClick={() => {
+                        setShowPookieDialog(false);
+                        setInstruction("");
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                      disabled={!instruction.trim()}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
           <button
             className="bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark font-semibold px-6 py-2 rounded-xl hover:shadow-neuLg dark:hover:shadow-neuLgDark hover:bg-blue-100 dark:hover:bg-blue-900 transition-all duration-200 focus:outline-none text-neuText dark:text-neuTextDark"
             onClick={(event) => {
@@ -157,16 +240,17 @@ export default function Viewblog({ article }) {
           onChange={(e) => setTitle(e.target.value)}
           className="w-full mb-6 p-4 rounded-lg bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark shadow-neuInset dark:shadow-neuInsetDark border-none focus:outline-none text-2xl font-bold resize-none"
         />
-        <textarea
+        {/* <textarea
           required
           placeholder="Write your article"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           className="w-full flex-1 mb-6 p-4 rounded-lg bg-neuBase dark:bg-neuBaseDark text-neuText dark:text-neuTextDark shadow-neuInset dark:shadow-neuInsetDark border-none focus:outline-none resize-none overflow-y-auto"
           style={{ minHeight: "450px", maxHeight: "600px" }}
-        />
+        /> */}
+        <RichTextEditor initialvalue={content} setValue={setContent} />
       </form>
       {/* </div> */}
-      </div>
+    </div>
   );
 }

@@ -4,6 +4,7 @@ import Blog from "@/components/blog";
 import { motion } from "framer-motion";
 import { useEffect, useState, useContext } from "react";
 import { LoadingContext } from "@/contexts/loading-context";
+import Navbar from "@/components/navbar";
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -20,17 +21,17 @@ export default function Home() {
 
   return (
     <motion.div
-      className="h-[calc(100vh-7rem)] bg-neuBase dark:bg-neuBaseDark transition-colors lg:pt-5 overflow-hidden"
+      className="h-full bg-neuBase dark:bg-neuBaseDark transition-colors overflow-hidden"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="flex h-full">
+      <Navbar />
+      <div className="flex">
         <aside
-          className={`fixed lg:static top-[100px] left-0 h-full lg:h-auto w-64 lg:w-1/4 bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark z-40 p-6 transition-transform duration-300 lg:translate-x-0 ${
-            sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:rounded-2xl flex flex-col items-center`}
+          className={`fixed lg:static top-[100px] bottom-0 left-0 lg:h-auto w-64 lg:w-1/4 bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark z-40 p-6 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } lg:rounded-2xl flex flex-col items-center overflow-y-auto`}
         >
           <div className="w-full flex justify-end lg:hidden mb-4">
             <button
@@ -104,13 +105,15 @@ export default function Home() {
                 transition={{ duration: 0.3, delay: idx * 0.05 }}
               >
                 <div
-                  onClick={() => setCategory(cat)}
+                  onClick={() => {
+                    setSidebarOpen(false);
+                    return setCategory(cat);
+                  }}
                   className={`block text-neuText dark:text-neuTextDark bg-neuBase dark:bg-neuBaseDark 
                     rounded-2xl px-5 py-3 shadow-neu dark:shadow-neuDark text-center font-medium
-                    tracking-wide transition-all duration-200 cursor-pointer ${
-                      category === cat
-                        ? "bg-gray-200 dark:bg-gray-700 shadow-neuInset dark:shadow-neuInsetDark"
-                        : "hover:bg-gray-200 dark:hover:bg-gray-700"
+                    tracking-wide transition-all duration-200 cursor-pointer ${category === cat
+                      ? "bg-gray-200 dark:bg-gray-700 shadow-neuInset dark:shadow-neuInsetDark"
+                      : "hover:bg-gray-200 dark:hover:bg-gray-700"
                     }`}
                 >
                   {cat}

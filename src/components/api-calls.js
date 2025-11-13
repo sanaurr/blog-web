@@ -76,6 +76,26 @@ async function generateByAI(topic, category, length, accessToken) {
   return response.data;
 }
 
+async function editByAI(instruction, title, content, category, length, accessToken) {
+  const formData = new FormData();
+  formData.append("instruction", instruction);
+  formData.append("title", title);
+  formData.append("content", content);
+  formData.append("category", category);
+  formData.append("length", length);
+
+  console.log(formData, "formdata from api calls editbyai");
+  const response = await axios.post(`${domain}assistant/edit`, formData, {
+    headers: {
+          "Content-Type": "multipart/form-data",
+        
+      authorization: accessToken,
+    },
+  });
+  console.log(response.data, "response from api calls editbyai");
+  return response.data;
+}
+
 async function createPost(post, accessToken) {
   const response = axios.post(`${domain}posts/`, post, {
     headers: {
@@ -143,4 +163,5 @@ export {
   getPostByUserId,
   getLatestPosts,
   generateByAI,
+  editByAI,
 };

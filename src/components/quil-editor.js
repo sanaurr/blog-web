@@ -32,7 +32,7 @@ export default function RichTextEditor({ initialvalue, setValue }) {
   }, []);
 
   // Calculate editor size (e.g., 80% of width, 50% of height)
-  const editorWidth = Math.max(320, Math.floor(dimensions.width * 0.92));
+  const editorWidth = Math.max(320, Math.floor(dimensions.width * 0.9));
   const editorHeight = Math.max(300, Math.floor(dimensions.height * 0.5));
 
   return (

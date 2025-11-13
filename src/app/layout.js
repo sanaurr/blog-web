@@ -12,10 +12,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-neuBase dark:bg-neuBaseDark transition-colors duration-300 ease-in-out h-screen">
+      <body className="bg-neuBase dark:bg-neuBaseDark transition-colors duration-300 ease-in-out xh-screen">
         <UserProvider>
           <LoadingProvider>
-            <Navbar />
+            {/* <Navbar /> */}
             {children}
           </LoadingProvider>
         </UserProvider>
