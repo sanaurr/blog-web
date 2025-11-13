@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
       <body className="bg-neuBase dark:bg-neuBaseDark transition-colors duration-300 ease-in-out xh-screen">
         <UserProvider>
           <LoadingProvider>
-            {/* <Navbar /> */}
+            <Navbar />
             {children}
           </LoadingProvider>
         </UserProvider>

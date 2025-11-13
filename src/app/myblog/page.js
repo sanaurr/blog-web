@@ -64,12 +64,12 @@ export default function MyBlogPage() {
 
         {/* Case 2: Logged in but no blogs */}
         {accessToken && !isFetching && articles.length === 0 && (
-          <div className="text-center mt-20">
+          <div className=" flex flex-col mb-8 items-center gap-6">
             <h2 className="text-xl sm:text-2xl font-bold mb-4 dark:text-neuTextDark text-neuText">
               You haven’t written any blogs yet 🚀
             </h2>
             <button
-              onClick={() => router.push("/create")}
+              onClick={() => router.push("/createblog")}
               className="px-6 py-2 rounded-2xl bg-neuBase text-neuText shadow-neu hover:shadow-neuLg transition-shadow dark:bg-neuBaseDark dark:text-neuTextDark dark:shadow-neuDark"
             >
               Create your first blog

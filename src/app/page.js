@@ -27,7 +27,7 @@ export default function Home() {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5 }}
     >
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="flex">
         <aside
           className={`fixed lg:static top-[100px] bottom-0 left-0 lg:h-auto w-64 lg:w-1/4 bg-neuBase dark:bg-neuBaseDark shadow-neu dark:shadow-neuDark z-40 p-6 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
